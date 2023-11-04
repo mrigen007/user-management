@@ -29,6 +29,7 @@ const login = async (req, res) => {
     }
 }
 
+// @access private
 const registerUser = async (req, res) => {
     try {
         const email = req.body.email;
@@ -46,6 +47,7 @@ const registerUser = async (req, res) => {
     }
 };
 
+// @access private
 const getUserList = async (req, res) => {
     try {
         const user = await Register.find(req.body);
@@ -55,6 +57,7 @@ const getUserList = async (req, res) => {
     }
 };
 
+// @access private
 const updateUser = async (req, res) => {
     try {
         const { userId } = req.params;
@@ -65,6 +68,7 @@ const updateUser = async (req, res) => {
     }
 };
 
+// @access private
 const deleteUser = async (req, res) => {
     try {
         const { email } = req.body;
