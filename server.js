@@ -1,25 +1,24 @@
-require("dotenv").config();
-const connectDB = require("./database/connect");
-const express = require("express");
-const app = express();
-const cors = require('cors')
+const app = require('./app');
 const port = process.env.PORT || 3000;
-const users = require("./routes/users");
+const connectDB = require("./database/connect");
 const color = require('colorette');
 
-app.use(express.json());
-app.use("/a/user", users);
-app.use(cors())
+// 👇️ handle uncaught exceptions
+process.on('uncaughtException', function (err) {
+    console.log(color.red(`Uncaught Exception Error Occurred ${err}`));
+});
 
 const startDB = async () => {
     try {
         await connectDB(process.env.MONGO_URL);
+        console.log(color.blue(`DB server is connected`));
         app.listen(port, () => {
             console.log(color.blue(`Node server is running on port ${port}...`));
-        });
-    } catch (e) {
+        })
+    } catch (error) {
         console.log(color.red(`ERROR is ${error}`));
     }
 };
+
 
 startDB();

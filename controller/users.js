@@ -61,8 +61,19 @@ const getUserList = async (req, res) => {
 const updateUser = async (req, res) => {
     try {
         const { userId } = req.params;
-        const user = await Register.findOneAndUpdate({ _id: userId }, req.body);
-        res.status(200).json({ user, msg: `Updated Successfully` });
+        if (req.body.email === req.user.email) {
+            const user = await Register.findOneAndUpdate({ _id: userId }, req.body);
+            res.status(200).json({ user, msg: `Updated Successfully` });
+        } else {
+            const { email } = req.body;
+            const emailExist = await Register.findOne({ email });
+            if (emailExist) {
+                res.status(403).json({ msg: 'Email already exist, Please enter new email' })
+            } else {
+                const user = await Register.findOneAndUpdate({ _id: userId }, req.body);
+                res.status(200).json({ user, msg: `Updated Successfully` });
+            }
+        }
     } catch (error) {
         res.status(500).json({ msg: error });
     }
