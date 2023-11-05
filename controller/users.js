@@ -82,7 +82,7 @@ const updateUser = async (req, res) => {
 // @access private
 const deleteUser = async (req, res) => {
     try {
-        const { email } = req.body;
+        const { email } = req.user;
         const user = await Register.findOneAndDelete({ email });
         res.status(200).json({ user, msg: `Account Deleted Successfully`, delete: "true" });
     } catch (error) {
